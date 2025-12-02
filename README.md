@@ -1,4 +1,4 @@
-<h1 align="center">NightVisionGoggles</h1>
+<h1 align="center">Night Vision Goggles</h1>
 <div align="center">
 <a href="https://github.com/MS-crew/NightVisionGoggles/releases"><img src="https://img.shields.io/github/downloads/MS-crew/NightVisionGoggles/total?style=for-the-badge&logo=githubactions&label=Downloads" href="https://github.com/MS-crew/NightVisionGoggles/releases" alt="GitHub Release Download"></a>
 <a href="https://github.com/MS-crew/NightVisionGoggles/releases"><img src="https://img.shields.io/badge/Build-1.0.0-brightgreen?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/NightVisionGoggles/releases" alt="GitHub Releases"></a>
