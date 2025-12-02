@@ -31,8 +31,6 @@ namespace NightVisionGoggles
 
         public class FakeLightSetting
         {
-            public bool AddFakeLight { get; set; } = true;
-
             public float Range { get; set; } = 50f;
 
             public float Intensity { get; set; } = 70f;

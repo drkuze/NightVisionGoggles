@@ -40,9 +40,6 @@ namespace NightVisionGoggles
 
         private void OnVerified(VerifiedEventArgs ev)
         {
-            if (!Plugin.Instance.Config.FakeLightSettings.AddFakeLight)
-                return;
-
             foreach (Light light in NVG.Lights.Values)
             {
                 ev.Player.HideNetworkIdentity(light.Base.netIdentity);
@@ -54,20 +51,17 @@ namespace NightVisionGoggles
             if (NVG.Lights.ContainsKey(ev.Player))
                 NVG.DisableNVG(ev.Player.ReferenceHub);
 
-            if (DirtyPlayers.Contains(ev.Player))
+            if (!DirtyPlayers.Contains(ev.Player))
+                return;
+
+            foreach (Light light in NVG.Lights.Values)
             {
-                foreach (Light light in NVG.Lights.Values)
-                {
-                    ev.Player.HideNetworkIdentity(light.Base.netIdentity);
-                }
+                ev.Player.HideNetworkIdentity(light.Base.netIdentity);
             }
         }
 
         private void OnChangingSpectatedPlayer(ChangingSpectatedPlayerEventArgs ev)
         {
-            if (!Plugin.Instance.Config.FakeLightSettings.AddFakeLight)
-                return;
-
             if (ev.OldTarget != null && NVG.Lights.ContainsKey(ev.OldTarget))
             {
                 ev.Player.HideNetworkIdentity(NVG.Lights[ev.OldTarget]?.Base?.netIdentity);

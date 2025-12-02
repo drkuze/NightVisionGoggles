@@ -33,8 +33,8 @@ namespace NightVisionGoggles
         [YamlIgnore]
         public Dictionary<Player, Light> Lights { get; private set; } = [];
 
-        public override uint Id { get; set; } = 757; 
-        
+        public override uint Id { get; set; } = 757;
+
         public override float Weight { get; set; } = 1f;
 
         [YamlIgnore]
@@ -44,7 +44,7 @@ namespace NightVisionGoggles
 
         public override string Description { get; set; } = "A night-vision device (NVD), also known as a Night-Vision goggle (NVG), is an optoelectronic device that allows visualization of images in low levels of light, improving the user's night vision.";
 
-        public override SpawnProperties SpawnProperties { get ; set; } = new SpawnProperties();
+        public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties();
 
         public override void Init()
         {
@@ -98,27 +98,24 @@ namespace NightVisionGoggles
             if (config.SimulateTemporaryDarkness)
                 player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
 
-            if (config.FakeLightSettings.AddFakeLight)
+            Light light = Light.Create(null, null, null, spawn: true, color: config.FakeLightSettings.Color);
+            light.Transform.SetParent(player.Transform, false);
+
+            light.Range = config.FakeLightSettings.Range;
+            light.Intensity = config.FakeLightSettings.Intensity;
+            light.ShadowType = config.FakeLightSettings.ShadowType;
+
+            Lights[player] = light;
+
+            foreach (Player ply in Player.List)
             {
-                Light light = Light.Create(null, null, null, spawn: true, color: config.FakeLightSettings.Color);
-                light.Transform.SetParent(player.Transform, false);
-                
-                light.Range = config.FakeLightSettings.Range;
-                light.Intensity = config.FakeLightSettings.Intensity;
-                light.ShadowType = config.FakeLightSettings.ShadowType;
+                if (ply == player)
+                    continue;
 
-                Lights[player] = light;
+                if (player.CurrentSpectatingPlayers.Contains(ply))
+                    continue;
 
-                foreach(Player ply in Player.List)
-                {
-                    if (ply == player)
-                        continue;
-
-                    if (player.CurrentSpectatingPlayers.Contains(ply))
-                        continue;
-
-                    ply.HideNetworkIdentity(light.Base.netIdentity);
-                }
+                ply.HideNetworkIdentity(light.Base.netIdentity);
             }
 
             Log.Debug($"{player.Nickname} : Activated NVG");
@@ -134,16 +131,13 @@ namespace NightVisionGoggles
             if (Plugin.Instance.Config.SimulateTemporaryDarkness)
                 player.DisableEffect(EffectType.Blinded);
 
-            if (Plugin.Instance.Config.FakeLightSettings.AddFakeLight)
-            {
-                GameObject lighObject = Lights[player]?.GameObject;
-                Lights.Remove(player);
-                NetworkServer.Destroy(lighObject);
+            GameObject lighObject = Lights[player]?.GameObject;
+            Lights.Remove(player);
+            NetworkServer.Destroy(lighObject);
 
-                foreach(Player ply in player.CurrentSpectatingPlayers)
-                {
-                    Plugin.Instance.EventHandlers.DirtyPlayers.Remove(ply);
-                }
+            foreach (Player ply in player.CurrentSpectatingPlayers)
+            {
+                Plugin.Instance.EventHandlers.DirtyPlayers.Remove(ply);
             }
 
             Log.Debug($"{player.Nickname} : Deactivated NVG");
