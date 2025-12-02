@@ -42,7 +42,7 @@ namespace NightVisionGoggles
 
         public override string Name { get; set; } = "Night Vision Goggles";
 
-        public override string Description { get; set; } = "An artificial intelligence Visor that censors SCP-096's face";
+        public override string Description { get; set; } = "A night-vision device (NVD), also known as a Night-Vision goggle (NVG), is an optoelectronic device that allows visualization of images in low levels of light, improving the user's night vision.";
 
         public override SpawnProperties SpawnProperties { get ; set; } = new SpawnProperties();
 
