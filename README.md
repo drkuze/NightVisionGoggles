@@ -32,10 +32,8 @@ night_vision_insentity: 5
 # Simulate the temporary darkness when wearing the glasses
 simulate_temporary_darkness: true
 # Wearing time (default 5)
-override_wearing_time: false
 wearing_time: 1
 # Removal time (default 5.1)
-override_wearing_off_time: false
 wearing_off_time: 1
 n_v_g:
   id: 757
