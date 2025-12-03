@@ -57,6 +57,8 @@ namespace NightVisionGoggles
                 {
                     ev.Player.HideNetworkIdentity(light.Base.netIdentity);
                 }
+
+                DirtyPlayers.Remove(ev.Player);
             }
         }
 
