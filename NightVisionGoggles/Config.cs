@@ -12,10 +12,10 @@ namespace NightVisionGoggles
 
         public bool Debug { get; set; } = false;
 
-        public byte NightVisionInsentity { get; set; } = 5;
+        public byte NightVisionEffectInsentity { get; set; } = 1;
 
         [Description("Simulate the temporary darkness when wearing the glasses")]
-        public bool SimulateTemporaryDarkness { get; set; } = true;
+        public bool SimulateTemporaryDarkness { get; set; } = false;
 
         [Description("Wearing time (default 5)")]
         public float WearingTime { get; set; } = 1f;
@@ -25,15 +25,26 @@ namespace NightVisionGoggles
 
         public NightVisionGoggles NVG { get; set; } = new NightVisionGoggles();
 
-        public FakeLightSetting FakeLightSettings { get; set; } = new FakeLightSetting();
+        public LightSetting LightSettings { get; set; } = new LightSetting();
 
-        public class FakeLightSetting
+        public class LightSetting
         {
             public float Range { get; set; } = 50f;
 
             public float Intensity { get; set; } = 70f;
 
+            public float SpotAngle { get; set; } = 90f;
+
+            public float InnerSpotAngle { get; set; } = 0f;
+
             public Color Color { get; set; } = Color.green;
+
+            public bool TrackCameraRotation { get; set; } = true;
+
+            public float TrackCameraRotationInterval { get; set; } = 0.01f;
+
+            [Description("You can use this types `Spot, Point, Directional`")]
+            public LightType LightType { get; set; } = LightType.Spot;
 
             public LightShadows ShadowType { get; set; } = LightShadows.None;
         }

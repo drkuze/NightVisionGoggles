@@ -5,10 +5,13 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Spawn;
+using Exiled.API.Features.Toys;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Scp1344;
 
 using InventorySystem.Items.Usables.Scp1344;
+
+using MEC;
 
 using Mirror;
 
@@ -18,6 +21,7 @@ using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.Wearables;
 
 using UnityEngine;
 
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 using Light = Exiled.API.Features.Toys.Light;
@@ -32,6 +36,9 @@ namespace NightVisionGoggles
 
         [YamlIgnore]
         public Dictionary<Player, Light> Lights { get; private set; } = [];
+
+        [YamlIgnore]
+        private Dictionary<Player, CoroutineHandle> trackCameraCoroutines = new Dictionary<Player, CoroutineHandle>();
 
         public override uint Id { get; set; } = 757;
 
@@ -74,7 +81,15 @@ namespace NightVisionGoggles
 
         protected override void OnWaitingForPlayers()
         {
-            Lights.Clear();
+            Lights.Clear(); 
+
+            foreach (CoroutineHandle handle in trackCameraCoroutines.Values)
+            {
+                Timing.KillCoroutines(handle);
+            }
+
+            trackCameraCoroutines.Clear();
+
             base.OnWaitingForPlayers();
         }
 
@@ -92,18 +107,26 @@ namespace NightVisionGoggles
             Config config = Plugin.Instance.Config;
 
             player.DisableEffect(EffectType.Scp1344);
-            player.EnableEffect(EffectType.NightVision, intensity: config.NightVisionInsentity);
+            player.EnableEffect(EffectType.NightVision, intensity: config.NightVisionEffectInsentity);
             player.ReferenceHub.EnableWearables(WearableElements.Scp1344Goggles);
 
             if (config.SimulateTemporaryDarkness)
                 player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
 
-            Light light = Light.Create(null, null, null, spawn: true, color: config.FakeLightSettings.Color);
+            Light light = Light.Create(null, null, null, spawn: true, color: config.LightSettings.Color);
             light.Transform.SetParent(player.Transform, false);
 
-            light.Range = config.FakeLightSettings.Range;
-            light.Intensity = config.FakeLightSettings.Intensity;
-            light.ShadowType = config.FakeLightSettings.ShadowType;
+            light.SpotAngle = config.LightSettings.SpotAngle;
+            light.InnerSpotAngle = config.LightSettings.InnerSpotAngle;
+
+            light.Rotation = player.Rotation;
+            light.Position = player.CameraTransform.position;
+
+            light.Range = config.LightSettings.Range;
+            light.Intensity = config.LightSettings.Intensity;
+
+            light.LightType = config.LightSettings.LightType;
+            light.ShadowType = config.LightSettings.ShadowType;
 
             Lights[player] = light;
 
@@ -122,6 +145,9 @@ namespace NightVisionGoggles
             }
 
             Log.Debug($"{player.Nickname} : Activated NVG");
+
+            if (config.LightSettings.TrackCameraRotation)
+                trackCameraCoroutines[player] = Timing.RunCoroutine(TrackCameraRotation(player.CameraTransform, light.Transform, config.LightSettings.TrackCameraRotationInterval));
         }
 
         public void DisableNVG(ReferenceHub hub)
@@ -134,7 +160,14 @@ namespace NightVisionGoggles
             if (Plugin.Instance.Config.SimulateTemporaryDarkness)
                 player.DisableEffect(EffectType.Blinded);
 
+            if (Plugin.Instance.Config.LightSettings.TrackCameraRotation && trackCameraCoroutines.TryGetValue(player, out CoroutineHandle coroutine))
+            {
+                Timing.KillCoroutines(coroutine);
+                trackCameraCoroutines.Remove(player);
+            }
+
             GameObject lighObject = Lights[player]?.GameObject;
+
             Lights.Remove(player);
             NetworkServer.Destroy(lighObject);
 
@@ -144,6 +177,20 @@ namespace NightVisionGoggles
             }
 
             Log.Debug($"{player.Nickname} : Deactivated NVG");
+        }
+
+        private IEnumerator<float> TrackCameraRotation(Transform camera, Transform light, float syncInterval)
+        {
+            while (camera != null && light != null)
+            {
+                float pitch = camera.localRotation.eulerAngles.x;
+                Quaternion targetRotation = Quaternion.AngleAxis(pitch, Vector3.right);
+
+                if (light.localRotation != targetRotation)
+                    light.localRotation = targetRotation;
+
+                yield return syncInterval;
+            }
         }
     }
 }
