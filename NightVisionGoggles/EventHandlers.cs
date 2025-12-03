@@ -51,12 +51,12 @@ namespace NightVisionGoggles
             if (NVG.Lights.ContainsKey(ev.Player))
                 NVG.DisableNVG(ev.Player.ReferenceHub);
 
-            if (!DirtyPlayers.Contains(ev.Player))
-                return;
-
-            foreach (Light light in NVG.Lights.Values)
+            if (DirtyPlayers.Contains(ev.Player))
             {
-                ev.Player.HideNetworkIdentity(light.Base.netIdentity);
+                foreach (Light light in NVG.Lights.Values)
+                {
+                    ev.Player.HideNetworkIdentity(light.Base.netIdentity);
+                }
             }
         }
 

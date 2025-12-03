@@ -5,8 +5,6 @@ using Exiled.CustomItems.API;
 
 using HarmonyLib;
 
-using NightVisionGoggles.Patchs;
-
 namespace NightVisionGoggles
 {
     public class Plugin : Plugin<Config>
