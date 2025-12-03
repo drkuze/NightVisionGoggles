@@ -36,8 +36,7 @@ namespace NightVisionGoggles
 
         [YamlIgnore]
         public Dictionary<Player, Light> Lights { get; private set; } = [];
-
-        [YamlIgnore]
+        
         private Dictionary<Player, CoroutineHandle> trackCameraCoroutines = new Dictionary<Player, CoroutineHandle>();
 
         public override uint Id { get; set; } = 757;
