@@ -1,12 +1,15 @@
 <h1 align="center">Night Vision Goggles</h1>
 <div align="center">
 <a href="https://github.com/MS-crew/NightVisionGoggles/releases"><img src="https://img.shields.io/github/downloads/MS-crew/NightVisionGoggles/total?style=for-the-badge&logo=githubactions&label=Downloads" href="https://github.com/MS-crew/NightVisionGoggles/releases" alt="GitHub Release Download"></a>
-<a href="https://github.com/MS-crew/NightVisionGoggles/releases"><img src="https://img.shields.io/badge/Build-1.0.1-brightgreen?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/NightVisionGoggles/releases" alt="GitHub Releases"></a>
+<a href="https://github.com/MS-crew/NightVisionGoggles/releases"><img src="https://img.shields.io/badge/Build-1.1.0-brightgreen?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/NightVisionGoggles/releases" alt="GitHub Releases"></a>
 <a href="https://github.com/MS-crew/NightVisionGoggles/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/Licence-GPL_3.0-blue?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/NightVisionGoggles/blob/master/LICENSE.txt" alt="General Public License v3.0"></a>
 <a href="https://github.com/ExMod-Team/EXILED"><img src="https://img.shields.io/badge/Exiled-9.10.0-red?style=for-the-badge&logo=gitbook" href="https://github.com/ExMod-Team/EXILED" alt="GitHub Exiled"></a>
 
 A standard-issue night-vision device designed by the SCP Foundation for use in dark or low-visibility environments. When activated, the goggles amplify ambient light and provide the user with clear visibility inside unlit areas of the facility.
 This item as a practical tool for improving visibility during containment and security operations.
+
+<img width="1275" height="795" alt="image" src="https://github.com/user-attachments/assets/37625b73-7122-4605-8a0a-18ec4f267d3e" />
+<img width="1264" height="798" alt="image" src="https://github.com/user-attachments/assets/5eb3b3e4-b470-4234-85cc-0d723b78445e" />
 </div>
 
 ## Installation
