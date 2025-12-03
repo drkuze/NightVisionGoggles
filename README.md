@@ -7,6 +7,9 @@
 
 A standard-issue night-vision device designed by the SCP Foundation for use in dark or low-visibility environments. When activated, the goggles amplify ambient light and provide the user with clear visibility inside unlit areas of the facility.
 This item as a practical tool for improving visibility during containment and security operations.
+
+<img width="1275" height="795" alt="image" src="https://github.com/user-attachments/assets/37625b73-7122-4605-8a0a-18ec4f267d3e" />
+<img width="1264" height="798" alt="image" src="https://github.com/user-attachments/assets/5eb3b3e4-b470-4234-85cc-0d723b78445e" />
 </div>
 
 ## Installation
