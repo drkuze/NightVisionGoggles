@@ -114,7 +114,7 @@ namespace NightVisionGoggles
 
                 if (player.CurrentSpectatingPlayers.Contains(ply))
                 {
-                    Plugin.Instance.EventHandlers.DirtyPlayers.Add(ply);//next update fix
+                    Plugin.Instance.EventHandlers.DirtyPlayers.Add(ply);
                     continue;
                 }     
 
