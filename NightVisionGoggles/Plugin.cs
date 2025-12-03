@@ -42,9 +42,9 @@ namespace NightVisionGoggles
         public override void OnDisabled()
         {
             harmony.UnpatchAll(harmony.Id);
-            Config.NVG.Unregister();
             EventHandlers.Unsubscribe();
-
+            Config.NVG.Unregister();
+            
             EventHandlers = null;
             Instance = null;
 
