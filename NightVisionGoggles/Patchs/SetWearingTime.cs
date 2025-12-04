@@ -31,7 +31,7 @@ namespace NightVisionGoggles.Patchs
                 new(OpCodes.Callvirt,  PropertyGetter(typeof(NightVisionGoggles), nameof(NightVisionGoggles.TrackedSerials))),
                 new(OpCodes.Ldarg_0),
                 new(OpCodes.Callvirt,  PropertyGetter(typeof(Scp1344Item), nameof(Scp1344Item.ItemSerial))),
-                new(OpCodes.Callvirt,  Method(typeof(HashSet<int>), nameof(HashSet<int>.Contains), [typeof(int)])),
+                new(OpCodes.Callvirt,  Method(typeof(HashSet<int>), nameof(HashSet<int>.Contains), [typeof(ushort)])),
                 new(OpCodes.Brfalse_S, Skip),
                 new(OpCodes.Ldc_R4,    Plugin.Instance.Config.WearingTime),
                 new(OpCodes.Br_S ,     Skip2)

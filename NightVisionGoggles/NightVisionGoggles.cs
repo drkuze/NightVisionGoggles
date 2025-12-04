@@ -37,8 +37,7 @@ namespace NightVisionGoggles
         [YamlIgnore]
         public Dictionary<Player, Light> Lights { get; private set; } = [];
 
-        [YamlIgnore]
-        private Dictionary<Player, CoroutineHandle> trackCameraCoroutines = new Dictionary<Player, CoroutineHandle>();
+        private Dictionary<Player, CoroutineHandle> trackCameraCoroutines = [];
 
         public override uint Id { get; set; } = 757;
 
@@ -67,15 +66,15 @@ namespace NightVisionGoggles
 
         protected override void SubscribeEvents()
         {
-            BlockBadEffect.On1344WearOff += DisableNVG;
             Scp1344Event.ChangedStatus += OnChangedStatus;
+            ServerUpdateDeactivatingPatch.On1344WearOff += DisableNVG;
             base.SubscribeEvents();
         }
 
         protected override void UnsubscribeEvents()
         {
-            BlockBadEffect.On1344WearOff -= DisableNVG;
             Scp1344Event.ChangedStatus -= OnChangedStatus;
+            ServerUpdateDeactivatingPatch.On1344WearOff -= DisableNVG;
             base.UnsubscribeEvents();
         }
 
@@ -140,7 +139,7 @@ namespace NightVisionGoggles
                 {
                     Plugin.Instance.EventHandlers.DirtyPlayers.Add(ply);
                     continue;
-                }     
+                }
 
                 ply.HideNetworkIdentity(light.Base.netIdentity);
             }

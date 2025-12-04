@@ -3,6 +3,8 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 
+using NightVisionGoggles.Patchs;
+
 using static NightVisionGoggles.NightVisionGoggles;
 
 using Light = Exiled.API.Features.Toys.Light;
@@ -49,7 +51,7 @@ namespace NightVisionGoggles
         private void OnChangingRole(ChangingRoleEventArgs ev)
         {
             if (NVG.Lights.ContainsKey(ev.Player))
-                NVG.DisableNVG(ev.Player.ReferenceHub);
+                ServerUpdateDeactivatingPatch.WearOffNightVision(ev.Player.ReferenceHub);
 
             if (DirtyPlayers.Contains(ev.Player))
             {
