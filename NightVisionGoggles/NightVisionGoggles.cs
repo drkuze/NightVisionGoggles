@@ -109,8 +109,8 @@ namespace NightVisionGoggles
             player.EnableEffect(EffectType.NightVision, intensity: config.NightVisionEffectInsentity);
             player.ReferenceHub.EnableWearables(WearableElements.Scp1344Goggles);
 
-            if (config.SimulateTemporaryDarkness)
-                player.EnableEffect(EffectType.Blinded, 255, float.MaxValue, true);
+            if (!config.SimulateTemporaryDarkness)
+                Timing.CallDelayed(1, ()=> player.DisableEffect(EffectType.Blinded));
 
             Light light = Light.Create(null, null, null, spawn: true, color: config.LightSettings.Color);
             light.Transform.SetParent(player.Transform, false);
@@ -154,11 +154,8 @@ namespace NightVisionGoggles
         {
             Player player = Player.Get(hub);
 
-            player.DisableEffect(EffectType.NightVision);
+            player.DisableEffects([EffectType.NightVision, EffectType.Blinded]);
             player.ReferenceHub.DisableWearables(WearableElements.Scp1344Goggles);
-
-            if (Plugin.Instance.Config.SimulateTemporaryDarkness)
-                player.DisableEffect(EffectType.Blinded);
 
             if (Plugin.Instance.Config.LightSettings.TrackCameraRotation && trackCameraCoroutines.TryGetValue(player, out CoroutineHandle coroutine))
             {
